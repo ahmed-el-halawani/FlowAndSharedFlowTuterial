@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import com.newcore.flowandsharedflowtuterial.databinding.ActivityMainBinding
-import com.newcore.flowandsharedflowtuterial.extensions.observeFlow
+import com.newcore.flowandsharedflowtuterial.extensions.observeLatest
 import kotlinx.coroutines.Job
 
 class MainActivity : AppCompatActivity() {
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
          * convert hot flow to live data
          */
 
-        vm.stateFlow.observeFlow(this) {
+        vm.stateFlow.observeLatest(this) {
             binding.tvHotLiveData.text = it.toString()
         }
 

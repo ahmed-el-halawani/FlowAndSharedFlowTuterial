@@ -8,10 +8,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-fun <T> Flow<T>.observeFlow(lifecycleOwner: LifecycleOwner, collect: suspend (T) -> Unit) {
+fun <T> Flow<T>.observeLatest(lifecycleOwner: LifecycleOwner, collectFunc: suspend (T) -> Unit) {
     lifecycleOwner.lifecycleScope.launch {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            collectLatest(collect)
+            collectLatest {
+                collectFunc(it)
+            }
+        }
+    }
+}
+
+fun <T> Flow<T>.observe(lifecycleOwner: LifecycleOwner, collectFunc: suspend (T) -> Unit) {
+    lifecycleOwner.lifecycleScope.launch {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            collect {
+                collectFunc(it)
+            }
         }
     }
 }
